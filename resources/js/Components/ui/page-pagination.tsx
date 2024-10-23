@@ -5,17 +5,32 @@ import {
   PaginationItem,
   PaginationLink,
 } from "@/components/ui/pagination";
-import type { PaginationData } from "@/types";
+import type { PaginationMeta, QueryParams } from "@/types";
 import { Link } from "@inertiajs/react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 type PagePaginationData = {
-  meta: PaginationData;
+  meta: PaginationMeta;
+  queryParams?: Partial<QueryParams>;
 };
 
-export const PagePagination: React.FC<PagePaginationData> = ({ meta }) => {
+export const PagePagination: React.FC<PagePaginationData> = ({
+  meta,
+  queryParams,
+}) => {
   const { current_page, last_page, links, path, per_page, to, total } = meta;
+  console.log(meta);
+  queryParams = queryParams || {};
+  if (queryParams.page) {
+    // biome-ignore lint/performance/noDelete: <explanation>
+    delete queryParams.page;
+  }
+  const urlSearchParams = new URLSearchParams(
+    queryParams as Record<string, string>,
+  );
   return (
+    // TODO: Handle pagination in a better way , it should have more efficient page links,
+    // also go to first and last page.
     <Pagination>
       <PaginationContent>
         <PaginationItem>
@@ -23,11 +38,16 @@ export const PagePagination: React.FC<PagePaginationData> = ({ meta }) => {
             asChild
             data-current={current_page === 1}
             size="default"
-            className="data-[current=true]:disabled data-[current=treu]:cursor-not-allowed data-[current=true]:bg-muted data-[current=true]:text-gray-600/90 data-[current=true]:opacity-70"
+            className="data-[current=true]:cursor-disabled data-[current=true]:cursor-not-allowed data-[current=true]:bg-muted data-[current=true]:text-gray-600/90 data-[current=true]:opacity-70"
           >
             <Link
               preserveScroll
-              href={current_page === 1 ? null : (links.at(0)?.url ?? "")}
+              onClick={(e) => {
+                if (current_page === 1 || path === window.location.href) {
+                  e.preventDefault();
+                }
+              }}
+              href={`${links.at(0)?.url ?? ""}&${urlSearchParams}`}
             >
               <span className="flex items-center gap-1 align-between">
                 <ChevronLeft className="h-4 w-4" /> Previous
@@ -40,7 +60,10 @@ export const PagePagination: React.FC<PagePaginationData> = ({ meta }) => {
             return (
               <PaginationItem key={link.label}>
                 <PaginationLink asChild isActive={link.active}>
-                  <Link preserveScroll href={link.url ?? ""}>
+                  <Link
+                    preserveScroll
+                    href={`${link.url ?? ""}&${urlSearchParams}`}
+                  >
                     {link.label}
                   </Link>
                 </PaginationLink>
@@ -53,13 +76,16 @@ export const PagePagination: React.FC<PagePaginationData> = ({ meta }) => {
             asChild
             data-current={current_page === last_page}
             size="default"
-            className="data-[current=true]:disabled data-[current=treu]:cursor-not-allowed data-[current=true]:bg-muted data-[current=true]:text-gray-600/90 data-[current=true]:opacity-70 "
+            className="data-[current=true]:cursor-disabled data-[current=true]:cursor-not-allowed data-[current=true]:bg-muted data-[current=true]:text-gray-600/90 data-[current=true]:opacity-70 "
           >
             <Link
               preserveScroll
-              href={
-                current_page === last_page ? null : (links.at(-1)?.url ?? "")
-              }
+              onClick={(e) => {
+                if (current_page === last_page) {
+                  e.preventDefault();
+                }
+              }}
+              href={`${links.at(-1)?.url ?? ""}&${urlSearchParams}`}
             >
               <span className="flex items-center gap-1 align-between">
                 Next <ChevronRight className="h-4 w-4" />

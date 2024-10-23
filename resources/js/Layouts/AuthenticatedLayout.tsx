@@ -41,8 +41,8 @@ export default function AuthenticatedLayout({
                   Dashboard
                 </NavLink>
                 <NavLink
-                  href={route("project.index")}
-                  active={route().current("project.index")}
+                  href={route("projects.index")}
+                  active={route().current("projects.index")}
                 >
                   Projects
                 </NavLink>
