@@ -19,7 +19,6 @@ export const PagePagination: React.FC<PagePaginationData> = ({
   queryParams,
 }) => {
   const { current_page, last_page, links, path, per_page, to, total } = meta;
-  console.log(meta);
   queryParams = queryParams || {};
   if (queryParams.page) {
     // biome-ignore lint/performance/noDelete: <explanation>
