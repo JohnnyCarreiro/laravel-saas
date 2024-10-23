@@ -7,18 +7,28 @@ use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Project;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class ProjectController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): Response
     {
         $query = Project::query();
-        $projects = $query->paginate(10)->onEachSide(1);
+        $sortField = request('sort_field', 'created_at');
+        $sortDicretion = request('sort_direction', 'desc');
+        if (request('name')) {
+            $query->where('name', 'like', '%' . request('name') . '%');
+        }
+        if (request('status')) {
+            $query->where('status', request('status'));
+        }
+        $projects = $query->orderBy($sortField, $sortDicretion)->paginate(10);
         return Inertia::render('Project/Index', [
             'projects' => ProjectResource::collection($projects),
+            'queryParams' => request()->query() ?: null,
         ]);
     }
 

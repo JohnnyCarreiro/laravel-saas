@@ -14,13 +14,12 @@ export type PageProps<
 };
 
 type PaginationLinks = {
-  url?: string;
+  url: string | null;
   label: string;
   active: boolean;
-  // disabled?: boolean;
 };
 
-export type PaginationData = {
+export type PaginationMeta = {
   current_page: number;
   from: number;
   last_page: number;
@@ -29,4 +28,21 @@ export type PaginationData = {
   per_page: number;
   to: number;
   total: number;
+};
+
+export type PaginatedData<T> = {
+  data: T[];
+  links: {
+    first: string;
+    last: string;
+    prev: string | null;
+    next: string | null;
+  };
+  meta: PaginationMeta;
+};
+
+export type QueryParams = {
+  sort_field: string | null;
+  sort_direction: string | null;
+  page: string | null;
 };
