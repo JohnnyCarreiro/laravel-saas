@@ -1,17 +1,17 @@
 export type StatusClassMap = {
-  pendding: StatusClass | StatusText | PriorityClass | PriorityText;
+  pending: StatusClass | StatusText | PriorityClass | PriorityText;
   in_progress: StatusClass | StatusText | PriorityClass | PriorityText;
   completed: StatusClass | StatusText | PriorityClass | PriorityText;
 };
 
 export enum StatusClass {
-  Pendding = "bg-amber-500",
+  Pending = "bg-amber-500",
   InProgress = "bg-blue-500",
   Completed = "bg-green-500",
 }
 
 export enum StatusText {
-  Pendding = "Pending",
+  Pending = "Pending",
   InProgress = "In Progress",
   Completed = "Completed",
 }
