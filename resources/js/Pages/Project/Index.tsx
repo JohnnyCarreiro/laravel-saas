@@ -29,7 +29,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useEffect, useRef } from "react";
-import { ChevronDown, ChevronUp } from "lucide-react";
 import { SortableTableHead } from "@/Components/ui/sortable-table-head";
 
 type ProjectsQueryParams = {
@@ -191,7 +190,7 @@ export default function Index({ projects, queryParams = null }: ProjectsProps) {
                           {queryParams?.status && (
                             <SelectItem value="all">All</SelectItem>
                           )}
-                          <SelectItem value="pendding">Pendding</SelectItem>
+                          <SelectItem value="pending">Pending</SelectItem>
                           <SelectItem value="completed">Completed</SelectItem>
                           <SelectItem value="in_progress">
                             In Progress
