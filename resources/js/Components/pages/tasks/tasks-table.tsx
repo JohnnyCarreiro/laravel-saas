@@ -28,10 +28,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { SortableTableHead } from "@/Components/ui/sortable-table-head";
-import { Link, router } from "@inertiajs/react";
+import { Link } from "@inertiajs/react";
 import type { PaginatedData, QueryParams } from "@/types";
 import type { Task } from "models";
-import { PagePagination } from "@/Components/ui/page-pagination";
 
 type TasksQueryParams = {
   name: string;
@@ -45,11 +44,21 @@ type TasksTableProps = {
         [k: string]: string;
       })
     | null;
+  displayProject?: boolean;
+  handleSortBy: (fieldName: string) => void;
+  onChange(e: React.ChangeEvent<HTMLInputElement>): void;
+  onEnterKeySearch(e: React.KeyboardEvent<HTMLInputElement>): void;
+  handleSearch(key: string, value: string | null): void;
 };
 
 export const TasksTable: React.FC<TasksTableProps> = ({
   tasks,
   queryParams = null,
+  displayProject = true,
+  handleSortBy,
+  onChange,
+  onEnterKeySearch,
+  handleSearch,
 }) => {
   queryParams = queryParams || {};
   const searchRef = useRef<HTMLInputElement>(null);
@@ -59,52 +68,6 @@ export const TasksTable: React.FC<TasksTableProps> = ({
       searchRef.current.focus();
     }
   }, [queryParams.name]);
-  function handleSearch(key: string, value: string | null): void {
-    if (value) {
-      queryParams![key] = value;
-      if (queryParams && Object.keys(queryParams).length > 0) {
-        router.get(route("tasks.index"), queryParams);
-      }
-    } else {
-      delete queryParams![key];
-      if (queryParams && Object.keys(queryParams).length > 0) {
-        router.get(route("tasks.index"), queryParams);
-        return;
-      }
-      router.get(route("tasks.index"));
-    }
-  }
-
-  function onEnterKeySearch(e: React.KeyboardEvent<HTMLInputElement>): void {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      const name = (e.target as HTMLInputElement).name;
-      const value = (e.target as HTMLInputElement).value;
-      handleSearch(name, value);
-    }
-  }
-
-  function onChange(e: React.ChangeEvent<HTMLInputElement>): void {
-    e.preventDefault();
-    const key = (e.target as HTMLInputElement).name;
-    const value = (e.target as HTMLInputElement).value;
-    setTimeout(() => {
-      handleSearch(key, value);
-    }, 750);
-  }
-
-  function handleSortBy(fieldName: string) {
-    if (fieldName === queryParams?.sort_field) {
-      if (queryParams?.sort_direction === "asc") {
-        queryParams.sort_direction = "desc";
-      } else {
-        queryParams!.sort_direction = "asc";
-      }
-    } else {
-      queryParams!.sort_direction = "asc";
-    }
-    handleSearch("sort_field", fieldName);
-  }
   // TODO: Make header sticky for better UX on large set of data.
   // https://codesandbox.io/p/sandbox/sticky-header-table-with-react-3j5zy?file=/src/Table.js
 
@@ -115,7 +78,9 @@ export const TasksTable: React.FC<TasksTableProps> = ({
         <TableHeader className="sticky top-0 z-10">
           <TableRow>
             <TableHead className="px-3 py-2">Id</TableHead>
-            <TableHead className="px-3 py-2">Project</TableHead>
+            {displayProject && (
+              <TableHead className="px-3 py-2">Project</TableHead>
+            )}
             <SortableTableHead
               handleSortBy={handleSortBy}
               fieldName="name"
@@ -156,7 +121,7 @@ export const TasksTable: React.FC<TasksTableProps> = ({
         <TableHeader>
           <TableRow>
             <TableHead className="px-3 py-2" />
-            <TableHead className="px-3 py-2" />
+            {displayProject && <TableHead className="px-3 py-2" />}
             <TableHead className="px-3 py-2">
               <Input
                 ref={searchRef}
@@ -226,7 +191,9 @@ export const TasksTable: React.FC<TasksTableProps> = ({
           {tasks.data.map((task) => (
             <TableRow key={task.id}>
               <TableCell className="font-medium">{task.id}</TableCell>
-              <TableCell className="px-3 py-2">{task.project.id}</TableCell>
+              {displayProject && (
+                <TableCell className="px-3 py-2">{task.project.name}</TableCell>
+              )}
               <TableCell className="px-3 py-2">{task?.name ?? ""}</TableCell>
               <TableCell className="px-3 py-2">
                 <span
@@ -287,7 +254,6 @@ export const TasksTable: React.FC<TasksTableProps> = ({
           ))}
         </TableBody>
       </Table>
-      <PagePagination meta={tasks.meta} queryParams={queryParams} />
     </div>
   );
 };

@@ -213,8 +213,10 @@ export default function Index({ projects, queryParams = null }: ProjectsProps) {
                       <TableCell className="px-3 py-2">
                         <img className="w-16" src={project.image_path} alt="" />
                       </TableCell>
-                      <TableCell className="px-3 py-2">
-                        {project.name}
+                      <TableCell className="px-3 py-2 font-bold text-gray-800 hover:underline hover:underline-offset-4">
+                        <Link href={route("projects.show", project.id)}>
+                          {project.name}
+                        </Link>
                       </TableCell>
                       <TableCell className="px-3 py-2">
                         <span
