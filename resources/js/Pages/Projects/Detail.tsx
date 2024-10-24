@@ -35,8 +35,6 @@ export default function Details({
   tasks,
   queryParams = null,
 }: ProjectProps) {
-  console.log(tasks);
-  console.log(queryParams);
   queryParams = queryParams || {};
 
   function handleSearch(key: string, value: string | null): void {
@@ -90,13 +88,12 @@ export default function Details({
     <AuthenticatedLayout
       header={
         <h2 className="relative font-semibold text-gray-800 text-xl leading-tight">
-          {" "}
-          {`Project: ${project.name}`}{" "}
+          {`Project: ${project.name}`}
         </h2>
       }
     >
-      {" "}
       <Head title="Tasks" />
+
       <div className="py-12">
         <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
@@ -115,12 +112,14 @@ export default function Details({
                     <Label className="font-bold text-lg">Project Id</Label>
                     <p className="mt-1">{project.id}</p>
                   </div>
+
                   <div className="mt-4">
                     <Label className="mt-4 font-bold text-lg">
                       Project Name
                     </Label>
                     <p className="mt-1">{project.name}</p>
                   </div>
+
                   <div className="mt-4 ">
                     <Label className="mt-4 font-bold text-lg">
                       Project Status
@@ -142,26 +141,31 @@ export default function Details({
                       </div>
                     </div>
                   </div>
+
                   <div className="mt-4">
                     <Label className="mt-4 font-bold text-lg">Created By</Label>
                     <p className="mt-1">{project.created_by.name}</p>
                   </div>
                 </div>
+
                 <div>
                   <div className="mt-4">
                     <Label className="font-bold text-lg">Due Date</Label>
                     <p className="mt-1">{project.due_date}</p>
                   </div>
+
                   <div className="mt-4">
                     <Label className="font-bold text-lg">Created at</Label>
                     <p className="mt-1">{project.created_at}</p>
                   </div>
+
                   <div className="mt-4">
                     <Label className="font-bold text-lg">Updated by</Label>
                     <p className="mt-1">{project.updated_by.name}</p>
                   </div>
                 </div>
               </div>
+
               <div className="mt-4">
                 <Label className="font-bold text-lg">Project Description</Label>
                 <p className="mt-1">{project.description}</p>
@@ -170,6 +174,7 @@ export default function Details({
           </div>
         </div>
       </div>
+
       <div className="py-12">
         <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">

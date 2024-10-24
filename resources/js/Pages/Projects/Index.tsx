@@ -101,21 +101,29 @@ export default function Index({ projects, queryParams = null }: ProjectsProps) {
     }
     handleSearch("sort_field", fieldName);
   }
+
   return (
     <AuthenticatedLayout
       header={
-        <h2 className="font-semibold text-gray-800 text-xl leading-tight">
-          Projects
-        </h2>
+        <div className="flex w-full justify-between">
+          <h2 className="font-semibold text-gray-800 text-xl leading-tight">
+            Projects
+          </h2>
+          <Button asChild>
+            <Link href={route("projects.create")}>New Project</Link>
+          </Button>
+        </div>
       }
     >
       <Head title="Projects" />
+
       <div className="py-12">
         <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
             <div className="p-6 text-gray-900 dark:text-gray-100">
               <Table>
                 <TableCaption>Projects</TableCaption>
+
                 <TableHeader>
                   <TableRow>
                     <TableHead className="px-3 py-2">Id</TableHead>
@@ -128,7 +136,9 @@ export default function Index({ projects, queryParams = null }: ProjectsProps) {
                     >
                       Name
                     </SortableTableHead>
+
                     <TableHead className="px-3 py-2">Status</TableHead>
+
                     <SortableTableHead
                       handleSortBy={handleSortBy}
                       fieldName="create_at"
@@ -137,6 +147,7 @@ export default function Index({ projects, queryParams = null }: ProjectsProps) {
                     >
                       Created At
                     </SortableTableHead>
+
                     <SortableTableHead
                       handleSortBy={handleSortBy}
                       fieldName="due_date"
@@ -145,6 +156,7 @@ export default function Index({ projects, queryParams = null }: ProjectsProps) {
                     >
                       Due Date
                     </SortableTableHead>
+
                     <SortableTableHead
                       handleSortBy={handleSortBy}
                       fieldName="created_by"
@@ -153,15 +165,19 @@ export default function Index({ projects, queryParams = null }: ProjectsProps) {
                     >
                       Created By
                     </SortableTableHead>
+
                     <TableHead className="px-3 py-2 text-right">
                       Action
                     </TableHead>
                   </TableRow>
                 </TableHeader>
+
                 <TableHeader>
                   <TableRow>
                     <TableHead className="px-3 py-2" />
+
                     <TableHead className="px-3 py-2" />
+
                     <TableHead className="px-3 py-2">
                       <Input
                         ref={searchRef}
@@ -172,6 +188,7 @@ export default function Index({ projects, queryParams = null }: ProjectsProps) {
                         onKeyDown={onEnterKeySearch}
                       />
                     </TableHead>
+
                     <TableHead className="px-3 py-2">
                       <Select
                         onValueChange={(value) => {
@@ -198,26 +215,34 @@ export default function Index({ projects, queryParams = null }: ProjectsProps) {
                         </SelectContent>
                       </Select>
                     </TableHead>
+
                     <TableHead className="px-3 py-2" />
+
                     <TableHead className="px-3 py-2" />
+
                     <TableHead className="px-3 py-2" />
+
                     <TableHead className="px-3 py-2 text-right" />
                   </TableRow>
                 </TableHeader>
+
                 <TableBody>
                   {projects.data.map((project) => (
                     <TableRow key={project.id}>
                       <TableCell className="font-medium">
                         {project.id}
                       </TableCell>
+
                       <TableCell className="px-3 py-2">
                         <img className="w-16" src={project.image_path} alt="" />
                       </TableCell>
+
                       <TableCell className="px-3 py-2 font-bold text-gray-800 hover:underline hover:underline-offset-4">
                         <Link href={route("projects.show", project.id)}>
                           {project.name}
                         </Link>
                       </TableCell>
+
                       <TableCell className="px-3 py-2">
                         <span
                           className={cn(
@@ -234,15 +259,19 @@ export default function Index({ projects, queryParams = null }: ProjectsProps) {
                           )}
                         </span>
                       </TableCell>
+
                       <TableCell className="px-3 py-2">
                         {project.created_at}
                       </TableCell>
+
                       <TableCell className="px-3 py-2">
                         {project.due_date}
                       </TableCell>
+
                       <TableCell className="px-3 py-2">
                         {project.created_by.name}
                       </TableCell>
+
                       <TableCell className="flex items-center gap-2 px-3 py-2 text-right">
                         <Button asChild variant="secondary">
                           <Link
@@ -252,6 +281,7 @@ export default function Index({ projects, queryParams = null }: ProjectsProps) {
                             Edit
                           </Link>
                         </Button>
+
                         <Button asChild variant="destructive">
                           <Link
                             href={route("projects.edit", project.id)}
@@ -265,6 +295,7 @@ export default function Index({ projects, queryParams = null }: ProjectsProps) {
                   ))}
                 </TableBody>
               </Table>
+
               <PagePagination meta={projects.meta} queryParams={queryParams} />
             </div>
           </div>
