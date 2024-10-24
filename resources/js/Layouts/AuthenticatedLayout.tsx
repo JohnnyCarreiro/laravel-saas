@@ -188,14 +188,14 @@ export default function AuthenticatedLayout({
       </nav>
 
       {header && (
-        <header className="bg-white shadow">
+        <header className="bg-gray-100 shadow dark:bg-gray-800">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
             {header}
           </div>
         </header>
       )}
 
-      <main className="bg-gray-50 text-gray-950 dark:bg-gray-900 dark:text-gray-50">
+      <main className="bg-gray-50 text-gray-950 dark:bg-gray-900 dark:text-gray-100">
         {children}
       </main>
     </div>
