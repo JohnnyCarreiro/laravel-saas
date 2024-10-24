@@ -42,7 +42,10 @@ export default function AuthenticatedLayout({
                 </NavLink>
                 <NavLink
                   href={route("projects.index")}
-                  active={route().current("projects.index")}
+                  active={
+                    route().current("projects.index") ||
+                    route().current("projects.show")
+                  }
                 >
                   Projects
                 </NavLink>
