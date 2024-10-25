@@ -4,6 +4,7 @@ import type { Task } from "models";
 import type { PageProps, PaginatedData, QueryParams } from "@/types";
 import { TasksTable } from "@/Components/pages/tasks/tasks-table";
 import { PagePagination } from "@/Components/ui/page-pagination";
+import { Wrapper } from "@/Components/pages/wrapper";
 
 type TasksQueryParams = {
   name: string;
@@ -78,23 +79,20 @@ export default function Index({ tasks, queryParams = null }: TasksProps) {
       }
     >
       <Head title="Tasks" />
-      <div className="py-12">
-        <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-          <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
-            <TasksTable
-              handleSearch={handleSearch}
-              handleSortBy={handleSortBy}
-              onChange={onChange}
-              onEnterKeySearch={onEnterKeySearch}
-              tasks={tasks}
-              queryParams={queryParams}
-            />
-            <div className="pt-6 pb-12">
-              <PagePagination meta={tasks.meta} queryParams={queryParams} />
-            </div>
-          </div>
+
+      <Wrapper>
+        <TasksTable
+          handleSearch={handleSearch}
+          handleSortBy={handleSortBy}
+          onChange={onChange}
+          onEnterKeySearch={onEnterKeySearch}
+          tasks={tasks}
+          queryParams={queryParams}
+        />
+        <div className="pt-6 pb-12">
+          <PagePagination meta={tasks.meta} queryParams={queryParams} />
         </div>
-      </div>
+      </Wrapper>
     </AuthenticatedLayout>
   );
 }

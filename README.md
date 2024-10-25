@@ -64,3 +64,9 @@ php artisan route:list
 ```bash
 php artisan make:resource ProjectResource
 ```
+
+## Link storage to public
+
+```bash
+php artisan storage:link
+```
